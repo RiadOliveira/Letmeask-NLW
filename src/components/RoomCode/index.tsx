@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
-import copyImg from '../assets/images/copy.svg';
+import copyImg from '../../assets/images/copy.svg';
 
-import '../styles/room-code.scss';
+import './styles.scss';
 
 interface RoomCodeProps {
     code: string;

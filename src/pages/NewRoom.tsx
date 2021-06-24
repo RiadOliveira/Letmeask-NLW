@@ -1,13 +1,13 @@
 import illustratrionImg from '../assets/images/illustration.svg';
 import logoImg from '../assets/images/logo.svg';
+import Button from '../components/Button';
+
+import { Link, useHistory } from 'react-router-dom';
+import { FormEvent, useCallback, useState } from 'react';
+import { database } from '../services/firebase';
+import { useAuth } from '../hooks/authContext';
 
 import '../styles/auth.scss';
-import Button from '../components/Button';
-import { Link, useHistory } from 'react-router-dom';
-import { FormEvent, useCallback } from 'react';
-import { useState } from 'react';
-import { database } from '../services/firebase';
-import { useAuth } from '../hooks/auth';
 
 const NewRoom = () => {
     const {user} = useAuth();
