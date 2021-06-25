@@ -28,6 +28,13 @@ const AdminRoom: React.FC = () => {
     const questionsOrderedByLikes = useMemo(
         () =>
             questions.sort((prev, after) => {
+                if (prev.isAnswered) {
+                    return 1;
+                }
+                if (after.isAnswered) {
+                    return -1;
+                }
+
                 const prevLikes = prev.likesQuantity;
                 const afterLikes = after.likesQuantity;
 
