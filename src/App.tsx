@@ -1,28 +1,12 @@
-import Home from './pages/Home';
-import NewRoom from './pages/NewRoom';
-import Room from './pages/Room';
-import AdminRoom from './pages/Room/admin';
-
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { AuthContext } from './hooks/authContext';
+import Routes from './routes/index';
 
 import './styles/global.scss';
 
-
-function App() {
-  
-  return (
-    <BrowserRouter>
+const App = () => (
       <AuthContext>
-        <Switch>
-          <Route path="/" exact component={Home}/>
-          <Route path="/rooms/new" component={NewRoom}/>
-          <Route path="/rooms/:id" component={Room}/>
-          <Route path="/admin/rooms/:id" component={AdminRoom}/>
-        </Switch>
+        <Routes />
       </AuthContext>
-    </BrowserRouter>
-  );
-}
+);
 
 export default App;
