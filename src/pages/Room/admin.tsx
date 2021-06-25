@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+import { useMemo } from 'react';
 import logoImg from '../../assets/images/logo.svg';
 import Button from '../../components/Button';
 import RoomCode from '../../components/RoomCode';
@@ -9,9 +10,11 @@ import useRoom from '../../hooks/useRoom';
 import deleteImg from '../../assets/images/delete.svg';
 import checkImg from '../../assets/images/check.svg';
 import answerImg from '../../assets/images/answer.svg';
+import likeImg from '../../assets/images/like.svg';
 
 import './styles.scss';
 import { database } from '../../services/firebase';
+import NoQuestions from '../../components/NoQuestions';
 
 interface RoomParams {
     id: string;
@@ -21,6 +24,24 @@ const AdminRoom: React.FC = () => {
     const { id: roomId } = useParams<RoomParams>();
     const { questions, title } = useRoom(roomId);
     const history = useHistory();
+
+    const questionsOrderedByLikes = useMemo(
+        () =>
+            questions.sort((prev, after) => {
+                const prevLikes = prev.likesQuantity;
+                const afterLikes = after.likesQuantity;
+
+                if (afterLikes > prevLikes) {
+                    return 1;
+                }
+                if (prevLikes > afterLikes) {
+                    return -1;
+                }
+
+                return 0;
+            }),
+        [questions],
+    );
 
     const handleCheckQuestionAsAnswered = useCallback(
         async (questionId: string) => {
@@ -96,50 +117,64 @@ const AdminRoom: React.FC = () => {
                     )}
                 </div>
 
-                <div className="question-list">
-                    {questions.map(question => (
-                        <Question {...question} key={question.id}>
-                            {!question.isAnswered && (
-                                <>
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            handleCheckQuestionAsAnswered(
-                                                question.id,
-                                            )
-                                        }
-                                    >
-                                        <img
-                                            src={checkImg}
-                                            alt="Marcar como respondida"
-                                        />
-                                    </button>
+                {questions.length > 0 ? (
+                    <div className="question-list">
+                        {questionsOrderedByLikes.map(question => (
+                            <Question {...question} key={question.id}>
+                                <div id="likes">
+                                    {question.likesQuantity}
+                                    <img src={likeImg} alt="Likes quantity" />
+                                </div>
 
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            handleHighlightQuestion(question.id)
-                                        }
-                                    >
-                                        <img
-                                            src={answerImg}
-                                            alt="Destacar pergunta"
-                                        />
-                                    </button>
-                                </>
-                            )}
+                                {!question.isAnswered && (
+                                    <>
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                handleCheckQuestionAsAnswered(
+                                                    question.id,
+                                                )
+                                            }
+                                        >
+                                            <img
+                                                src={checkImg}
+                                                alt="Marcar como respondida"
+                                            />
+                                        </button>
 
-                            <button
-                                type="button"
-                                onClick={() =>
-                                    handleDeleteQuestion(question.id)
-                                }
-                            >
-                                <img src={deleteImg} alt="Remover pergunta" />
-                            </button>
-                        </Question>
-                    ))}
-                </div>
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                handleHighlightQuestion(
+                                                    question.id,
+                                                )
+                                            }
+                                        >
+                                            <img
+                                                src={answerImg}
+                                                alt="Destacar pergunta"
+                                            />
+                                        </button>
+                                    </>
+                                )}
+
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        handleDeleteQuestion(question.id)
+                                    }
+                                >
+                                    <img
+                                        src={deleteImg}
+                                        alt="Remover pergunta"
+                                    />
+                                </button>
+                            </Question>
+                        ))}
+                    </div>
+                ) : (
+                    <NoQuestions />
+                )}
             </main>
         </div>
     );

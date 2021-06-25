@@ -1,0 +1,16 @@
+#container {
+    background-color: #dbdcdd;
+    height: 40vh;
+    border-radius: 10px;
+    margin-top: 24px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    h2 {
+        color: #636363;
+        line-height: 70px;
+    }
+}

@@ -3,11 +3,11 @@
     border-radius: 8px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.04);
     padding: 24px;
+    position: relative;
 
     & + .question {
         margin-top: 8px;
     }
-
 
     &.highlighted {
         background-color: #f4f0ff;
@@ -23,7 +23,9 @@
     }
 
     p {
+        width: 90%;
         color: #29292e;
+        text-align: justify;
     }
 
     footer {
@@ -52,6 +54,17 @@
         > div {
             display: flex;
             gap: 8px;
+
+            #likes {
+                position: absolute;
+                top: 12px;
+                right: 22px;
+
+                display: flex;
+                align-items: flex-end;
+                color: #737380;
+                gap: 8px;
+            }
         }
 
         button {
