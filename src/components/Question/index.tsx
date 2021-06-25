@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import setClasses from 'classnames';
 import './styles.scss';
 
@@ -7,23 +7,24 @@ interface QuestionProps {
     author: {
         name: string;
         avatar: string;
-    }
+    };
     children?: ReactNode;
     isHighlighted?: boolean;
     isAnswered?: boolean;
 }
 
-const Question = ({
-    content, 
-    author, 
-    children, 
-    isHighlighted = false, 
-    isAnswered = false
-}: QuestionProps) => (
-    <div 
-    className={
-        setClasses('question', 
-        {answered: isAnswered, highlighted: isHighlighted && !isAnswered})}
+const Question: React.FC<QuestionProps> = ({
+    content,
+    author,
+    children,
+    isHighlighted = false,
+    isAnswered = false,
+}) => (
+    <div
+        className={setClasses('question', {
+            answered: isAnswered,
+            highlighted: isHighlighted && !isAnswered,
+        })}
     >
         <p>{content}</p>
 
@@ -37,6 +38,5 @@ const Question = ({
         </footer>
     </div>
 );
-
 
 export default Question;

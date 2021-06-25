@@ -1,12 +1,13 @@
+import React from 'react';
 import { AuthContext } from './hooks/authContext';
 import Routes from './routes/index';
 
 import './styles/global.scss';
 
-const App = () => (
-      <AuthContext>
+const App: React.FC = () => (
+    <AuthContext>
         <Routes />
-      </AuthContext>
+    </AuthContext>
 );
 
 export default App;

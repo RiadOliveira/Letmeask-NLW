@@ -1,14 +1,14 @@
-import { useContext } from "react";
-import { useEffect } from "react";
-import { createContext, useCallback, useState } from "react";
+import React, { useContext } from 'react';
+import { useEffect } from 'react';
+import { createContext, useCallback, useState } from 'react';
 import { auth, firebase } from '../services/firebase';
 
 interface User {
     id: string;
     name: string;
     avatar: string;
-  }
-  
+}
+
 interface IAuthContext {
     user?: User;
     signInWithGoogle(): Promise<void>;
@@ -16,15 +16,15 @@ interface IAuthContext {
 
 const authContext = createContext<IAuthContext>({} as IAuthContext);
 
-const AuthContext: React.FC = ({children}) => {
+const AuthContext: React.FC = ({ children }) => {
     const [user, setUser] = useState<User>();
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(user => {
-            if(user) {
-                const { displayName, photoURL, uid } = user;
+        const unsubscribe = auth.onAuthStateChanged(authUser => {
+            if (authUser) {
+                const { displayName, photoURL, uid } = authUser;
 
-                if(!displayName || !photoURL) {
+                if (!displayName || !photoURL) {
                     throw new Error('Missing information from Google Account.');
                 }
 
@@ -37,8 +37,8 @@ const AuthContext: React.FC = ({children}) => {
         });
 
         return () => {
-            unsubscribe()
-        }
+            unsubscribe();
+        };
     }, []);
 
     const signInWithGoogle = useCallback(async () => {
@@ -46,10 +46,10 @@ const AuthContext: React.FC = ({children}) => {
 
         const result = await auth.signInWithPopup(provider);
 
-        if(result.user) {
+        if (result.user) {
             const { displayName, photoURL, uid } = result.user;
 
-            if(!displayName || !photoURL) {
+            if (!displayName || !photoURL) {
                 throw new Error('Missing information from Google Account.');
             }
 
@@ -62,12 +62,12 @@ const AuthContext: React.FC = ({children}) => {
     }, []);
 
     return (
-        <authContext.Provider value={{user, signInWithGoogle}}>
+        <authContext.Provider value={{ user, signInWithGoogle }}>
             {children}
         </authContext.Provider>
     );
-}
+};
 
-const useAuth = () => useContext(authContext);
+const useAuth = (): IAuthContext => useContext(authContext);
 
 export { AuthContext, useAuth };
