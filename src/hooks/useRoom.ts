@@ -62,7 +62,7 @@ const useRoom = (roomId: string): UseRoomReturn => {
         return () => {
             roomRef.off('value');
         };
-    }, [roomId, user?.id]);
+    }, [roomId, user]);
 
     return { questions, title };
 };
