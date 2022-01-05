@@ -4,5 +4,5 @@
 with their public, in a way democratic and organized.</p>
 
 <h2>Original Project</h2>
-<p>This project was developed during Rocketseat's Next Level Week Together, the original project it's available 
+<p>This project was developed during <b>Rocketseat's Next Level Week Together</b>, the original project it's available 
 <a href="https://github.com/rocketseat-education/nlw-06-reactjs">here</a>.</p>
